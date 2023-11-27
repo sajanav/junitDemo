@@ -12,11 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -45,7 +52,7 @@ class DemoApplicationTests {
 
 	@Test
 	void addUserStatus()
-			{
+	{
 
 		userInfo.setName("mock");
 		userInfo.setPassword("mocking");
@@ -53,8 +60,13 @@ class DemoApplicationTests {
 		ReflectionTestUtils.setField(service,"encoder",mvc);
 		ReflectionTestUtils.setField(service,"repository",repository);
 
-				service.addUser(userInfo);
+		service.addUser(userInfo);
 		Assert.assertNotNull(service.loadUserByUsername("mock"));
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		authorities=Arrays.stream("ROLE_USER".split(","))
+				.map(SimpleGrantedAuthority::new)
+				.collect(Collectors.toList());
+		Assert.assertEquals(authorities,service.loadUserByUsername("mock").getAuthorities());
 
 
 	}
