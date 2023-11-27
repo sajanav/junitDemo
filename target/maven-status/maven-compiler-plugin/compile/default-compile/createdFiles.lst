@@ -1,0 +1,12 @@
+com\restapi\demo\DemoApplication.class
+com\restapi\demo\service\UserInfoDetails.class
+com\restapi\demo\entity\AuthRequest.class
+com\restapi\demo\config\SecurityConfig.class
+JsonToJavaClassConversion.class
+com\restapi\demo\entity\UserInfo.class
+com\restapi\demo\repository\UserInfoRepository.class
+JsonToJavaClassConversion$1.class
+com\restapi\demo\controller\UserController.class
+com\restapi\demo\service\JwtService.class
+com\restapi\demo\service\UserInfoService.class
+com\restapi\demo\filter\JwtAuthFilter.class
